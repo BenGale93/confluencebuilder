@@ -117,7 +117,7 @@ class Rest:
 
         try:
             rsp = self.session.get(
-                rest_url, params=params, timeout=self.timeout)
+                rest_url, params=params, timeout=self.timeout, verify=self.session.verify)
         except requests.exceptions.Timeout:
             raise ConfluenceTimeoutError(self.url)
         except requests.exceptions.SSLError as ex:
@@ -149,7 +149,7 @@ class Rest:
         rest_url = self.url + API_REST_BIND_PATH + '/' + key
         try:
             rsp = self.session.post(
-                rest_url, json=data, files=files, timeout=self.timeout)
+                rest_url, json=data, files=files, timeout=self.timeout, verify=self.session.verify)
         except requests.exceptions.Timeout:
             raise ConfluenceTimeoutError(self.url)
         except requests.exceptions.SSLError as ex:
@@ -183,7 +183,8 @@ class Rest:
     def put(self, key, value, data):
         rest_url = self.url + API_REST_BIND_PATH + '/' + key + '/' + str(value)
         try:
-            rsp = self.session.put(rest_url, json=data, timeout=self.timeout)
+            rsp = self.session.put(
+                rest_url, json=data, timeout=self.timeout, verify=self.session.verify)
         except requests.exceptions.Timeout:
             raise ConfluenceTimeoutError(self.url)
         except requests.exceptions.SSLError as ex:
@@ -217,7 +218,8 @@ class Rest:
     def delete(self, key, value):
         rest_url = self.url + API_REST_BIND_PATH + '/' + key + '/' + str(value)
         try:
-            rsp = self.session.delete(rest_url, timeout=self.timeout)
+            rsp = self.session.delete(
+                rest_url, timeout=self.timeout, verify=self.session.verify)
         except requests.exceptions.Timeout:
             raise ConfluenceTimeoutError(self.url)
         except requests.exceptions.SSLError as ex:
